@@ -114,7 +114,7 @@ const Home = () => {
                                 </span>
                             </div>
                         </div>
-                        <div id="toc-content">
+                        <div id="toc-content" className="pb-3">
                             {/* Nội dung của table of content */}
                         </div>
                     </div>
