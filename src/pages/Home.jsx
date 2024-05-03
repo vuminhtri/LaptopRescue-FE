@@ -25,8 +25,11 @@ const Home = () => {
             const link = document.createElement("a");
             link.href = `#${id}`;
             link.textContent = `${text}`;
+            link.classList.add("no-underline", "text-gray-700");
             listItem.appendChild(link);
             listItem.classList.add("ml-10");
+            listItem.classList.add("no-underline");
+            listItem.classList.add("text-black");
 
             tocContainer.appendChild(listItem);
         });
@@ -154,7 +157,7 @@ const Home = () => {
                     các nhu cầu từ hai phía đối tượng sinh viên của Trường Đại
                     học Quốc Gia Hà Nội.
                 </p>
-                <h2 className="pt-4 mx-8" id="3-Dich-vu-cua-ULAP-cung-cap">3. Dịch vụ của ULAP cung cấp:</h2>
+                <h2 className="pt-4 mx-8" id="3-Dich-vu-cua-ULAP-cung-cap">3. Dịch vụ của ULAP cung cấp</h2>
                 <div className="w-full flex justify-center">
                     <img
                         className="w-4/5"
@@ -239,7 +242,7 @@ const Home = () => {
                         </p>
                     </li>
                 </ul>
-                <h2 className="pt-4 mx-8" id="5-Quy-trinh-sua-chua">5. Quy trình sửa chữa:</h2>
+                <h2 className="pt-4 mx-8" id="5-Quy-trinh-sua-chua">5. Quy trình sửa chữa</h2>
                 <div className="w-full flex justify-center">
                     <img
                         className="w-4/5"
@@ -355,7 +358,7 @@ const Home = () => {
                         cao phương thức học tập của các bạn!
                     </p>
                 </div>
-                <h2 className="pt-4 mx-8" id="6-Cam-ket-cua-ULAP">6. Cam kết của ULAP:</h2>
+                <h2 className="pt-4 mx-8" id="6-Cam-ket-cua-ULAP">6. Cam kết của ULAP</h2>
                 <ul className="text-[17px] leading-6 mx-[60px] my-3">
                     <li className="my-4 font-medium">
                         Thái độ phục vụ khách hàng sửa laptop nhiệt tình, tận
