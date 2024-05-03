@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import service from "../assets/dich vu.png";
 import repairprocess from "../assets/quy trinh sua chua.jpg";
 import { useDispatch } from "react-redux";
@@ -34,7 +34,10 @@ const Home = () => {
             tocContainer.appendChild(listItem);
         });
     };
-    window.onload = generateTableOfContent;
+    // window.onload = generateTableOfContent;
+    useEffect(() => {
+        generateTableOfContent();
+    }, []);
 
     const dispatch = useDispatch();
 
@@ -78,13 +81,11 @@ const Home = () => {
         } else {
             tocContent.style.display = "block";
         }
-        setTocVisible(!tocVisible)
+        setTocVisible(!tocVisible);
     };
 
     return (
-        <div
-            className="flex justify-center min-w-full h-full bg-cover bg-slate-300"
-        >
+        <div className="flex justify-center min-w-full h-full bg-cover bg-slate-300">
             <div className="w-2/3 h-full bg-slate-100 pb-20">
                 <h1 className="text-center text-4xl font-bold mb-4">
                     ULAP - Sửa chữa Laptop cho sinh viên
@@ -109,12 +110,18 @@ const Home = () => {
                                 <span className="font-bold text-lg">
                                     Mục lục nội dung
                                 </span>
-                                <span className="text-blue-600 cursor-pointer" onClick={handleToggleTocVisibility}>
+                                <span
+                                    className="text-blue-600 cursor-pointer"
+                                    onClick={handleToggleTocVisibility}
+                                >
                                     {tocVisible ? "[ẩn]" : "[hiện]"}
                                 </span>
                             </div>
                         </div>
-                        <div id="toc-content" className="pb-3">
+                        <div
+                            id="toc-content"
+                            className="pb-3"
+                        >
                             {/* Nội dung của table of content */}
                         </div>
                     </div>
@@ -136,7 +143,12 @@ const Home = () => {
                     phần mềm, lỗi driver, lỗi kết nối mạng và một số các lỗi
                     khác.
                 </p>
-                <h2 className="pt-4 mx-8" id="2-Muc-dich-cua-trang-web">2. Mục đích của trang web</h2>
+                <h2
+                    className="pt-4 mx-8"
+                    id="2-Muc-dich-cua-trang-web"
+                >
+                    2. Mục đích của trang web
+                </h2>
                 <p className="text-[17px] leading-6 mx-[60px] my-3">
                     Laptop đã trở thành một công cụ hỗ trợ học tập không thể
                     thiếu của các bạn sinh viên với nhiều lợi ích mà nó mang lại
@@ -157,7 +169,12 @@ const Home = () => {
                     các nhu cầu từ hai phía đối tượng sinh viên của Trường Đại
                     học Quốc Gia Hà Nội.
                 </p>
-                <h2 className="pt-4 mx-8" id="3-Dich-vu-cua-ULAP-cung-cap">3. Dịch vụ của ULAP cung cấp</h2>
+                <h2
+                    className="pt-4 mx-8"
+                    id="3-Dich-vu-cua-ULAP-cung-cap"
+                >
+                    3. Dịch vụ của ULAP cung cấp
+                </h2>
                 <div className="w-full flex justify-center">
                     <img
                         className="w-4/5"
@@ -165,7 +182,10 @@ const Home = () => {
                         alt="bang-gia"
                     />
                 </div>
-                <h2 className="pt-4 mx-8" id="4-Tai-sao-ban-lai-lua-chon-dich-vu-cua-ULAP">
+                <h2
+                    className="pt-4 mx-8"
+                    id="4-Tai-sao-ban-lai-lua-chon-dich-vu-cua-ULAP"
+                >
                     4. Tại sao bạn lại lựa chọn dịch vụ của ULAP?
                 </h2>
                 <ul className="text-[17px] leading-6 mx-[60px] my-3">
@@ -242,7 +262,12 @@ const Home = () => {
                         </p>
                     </li>
                 </ul>
-                <h2 className="pt-4 mx-8" id="5-Quy-trinh-sua-chua">5. Quy trình sửa chữa</h2>
+                <h2
+                    className="pt-4 mx-8"
+                    id="5-Quy-trinh-sua-chua"
+                >
+                    5. Quy trình sửa chữa
+                </h2>
                 <div className="w-full flex justify-center">
                     <img
                         className="w-4/5"
@@ -358,7 +383,12 @@ const Home = () => {
                         cao phương thức học tập của các bạn!
                     </p>
                 </div>
-                <h2 className="pt-4 mx-8" id="6-Cam-ket-cua-ULAP">6. Cam kết của ULAP</h2>
+                <h2
+                    className="pt-4 mx-8"
+                    id="6-Cam-ket-cua-ULAP"
+                >
+                    6. Cam kết của ULAP
+                </h2>
                 <ul className="text-[17px] leading-6 mx-[60px] my-3">
                     <li className="my-4 font-medium">
                         Thái độ phục vụ khách hàng sửa laptop nhiệt tình, tận
