@@ -64,6 +64,7 @@ export default function ManageUsers() {
                 phoneCustomer: order.phoneCustomer,
                 descriptionError: order.descriptionError,
                 statusOrder: order.statusOrder,
+                pic: ""
             };
         });
 
@@ -87,7 +88,46 @@ export default function ManageUsers() {
         {
             field: "descriptionError",
             headerName: "Description Error",
-            width: 300,
+            width: 250,
+        },
+        {
+            field: "pic",
+            headerName: "Person In Charge",
+            width: 140,
+            renderCell: () => {
+                return (
+                    <select
+                        className="text-center bg-transparent border-none outline-none p-1 rounded cursor-pointer"
+                        value={selectedStatus}
+                        onChange={handleStatusChange}
+                    >
+                        <option
+                            className="text-green-700"
+                            value="No One"
+                        >
+                            No One
+                        </option>
+                        <option
+                            className="text-green-700"
+                            value="Phạm Tùng Thủy"
+                        >
+                            Phạm Tùng Thủy
+                        </option>
+                        <option
+                            className="text-amber-700"
+                            value="Bùi Tuấn Nghĩa"
+                        >
+                            Bùi Tuấn Nghĩa
+                        </option>
+                        <option
+                            className="text-red-700"
+                            value="Đặng Minh Khôi"
+                        >
+                            Đặng Minh Khôi
+                        </option>
+                    </select>
+                )
+            },
         },
         {
             field: "statusOrder",
@@ -162,7 +202,7 @@ export default function ManageUsers() {
             field: "actions",
             headerName: "Actions",
             sortable: false,
-            width: 250,
+            width: 350,
             renderCell: (params) => {
                 return (
                     <div className="flex w-full h-full justify-around items-center">
@@ -200,6 +240,12 @@ export default function ManageUsers() {
                                 >
                                     View Order Detail
                                 </button>
+                                <button
+                                    className="bg-green-700 border-none outline-none py-2 px-1 text-white rounded cursor-pointer leading-normal"
+                                    onClick={() => openModal(params.row.id)}
+                                >
+                                    Assign Work To
+                                </button>
                             </>
                         )}
                     </div>
@@ -210,7 +256,7 @@ export default function ManageUsers() {
 
     return (
         <div className="w-full flex justify-center">
-            <div className="w-11/12 h-96">
+            <div className=" h-96">
                 <h2 className="font-bold text-2xl pb-5">Orders</h2>
                 <DataGrid
                     rows={rows}

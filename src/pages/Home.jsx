@@ -1,9 +1,5 @@
-// import { useState } from "react";
-// import reactLogo from "./assets/react.svg";
-// import viteLogo from "/vite.svg";
-// import background from "./assets/background.jpg";
 import { useState } from "react";
-import pricetable from "../assets/bang gia.png";
+import service from "../assets/dich vu.png";
 import repairprocess from "../assets/quy trinh sua chua.jpg";
 import { useDispatch } from "react-redux";
 import { createOrders } from "../redux/ordersSlice";
@@ -15,6 +11,27 @@ const Home = () => {
         phoneNum: "",
         description: "",
     });
+    const [tocVisible, setTocVisible] = useState(true);
+
+    const generateTableOfContent = () => {
+        const tocContainer = document.getElementById("toc-content");
+        const headings = document.querySelectorAll("h2");
+
+        headings.forEach((heading) => {
+            const id = heading.id;
+            const text = heading.textContent;
+
+            const listItem = document.createElement("div");
+            const link = document.createElement("a");
+            link.href = `#${id}`;
+            link.textContent = `${text}`;
+            listItem.appendChild(link);
+            listItem.classList.add("ml-10");
+
+            tocContainer.appendChild(listItem);
+        });
+    };
+    window.onload = generateTableOfContent;
 
     const dispatch = useDispatch();
 
@@ -51,19 +68,57 @@ const Home = () => {
         dispatch(createOrders(order));
     };
 
+    const handleToggleTocVisibility = () => {
+        const tocContent = document.getElementById("toc-content");
+        if (tocVisible) {
+            tocContent.style.display = "none";
+        } else {
+            tocContent.style.display = "block";
+        }
+        setTocVisible(!tocVisible)
+    };
+
     return (
         <div
             className="flex justify-center min-w-full h-full bg-cover bg-slate-300"
-            // style={{ backgroundImage: `url(${background})` }}
         >
             <div className="w-2/3 h-full bg-slate-100 pb-20">
                 <h1 className="text-center text-4xl font-bold mb-4">
                     ULAP - Sửa chữa Laptop cho sinh viên
                 </h1>
-
+                <div className="ml-10 w-3/5 my-5 relative bg-slate-200 rounded-lg">
+                    <div id="toc">
+                        <div id="toc-header">
+                            <div className="flex pl-4 pt-4 gap-2 items-center">
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    height="20px"
+                                    viewBox="0 -10 490.66667 490"
+                                    width="20px"
+                                >
+                                    <path d="m48 171h-32c-8.832031 0-16 7.167969-16 16s7.167969 16 16 16h32c2.945312 0 5.332031 2.390625 5.332031 5.332031v5.335938c0 2.941406-2.386719 5.332031-5.332031 5.332031h-10.667969c-20.585937 0-37.332031 16.746094-37.332031 37.332031v26.667969c0 8.832031 7.167969 16 16 16h53.332031c8.832031 0 16-7.167969 16-16s-7.167969-16-16-16h-37.332031v-10.667969c0-2.941406 2.390625-5.332031 5.332031-5.332031h10.667969c20.585938 0 37.332031-16.746094 37.332031-37.332031v-5.335938c0-20.585937-16.746093-37.332031-37.332031-37.332031zm0 0"></path>
+                                    <path d="m48 341.667969h-32c-8.832031 0-16 7.167969-16 16s7.167969 16 16 16h32c2.945312 0 5.332031 2.386719 5.332031 5.332031v5.332031c0 2.945313-2.386719 5.335938-5.332031 5.335938h-21.332031c-8.832031 0-16 7.167969-16 16s7.167969 16 16 16h21.332031c2.945312 0 5.332031 2.386719 5.332031 5.332031v5.332031c0 2.945313-2.386719 5.335938-5.332031 5.335938h-32c-8.832031 0-16 7.167969-16 16s7.167969 16 16 16h32c20.585938 0 37.332031-16.746094 37.332031-37.335938v-5.332031c0-7.9375-2.539062-15.273438-6.78125-21.332031 4.242188-6.058594 6.78125-13.398438 6.78125-21.335938v-5.332031c0-20.585938-16.746093-37.332031-37.332031-37.332031zm0 0"></path>
+                                    <path d="m16 32.332031h16v80c0 8.832031 7.167969 16 16 16s16-7.167969 16-16v-96c0-8.832031-7.167969-16-16-16h-32c-8.832031 0-16 7.167969-16 16s7.167969 16 16 16zm0 0"></path>
+                                    <path d="m149.332031 85.667969h320c11.796875 0 21.335938-9.539063 21.335938-21.335938s-9.539063-21.332031-21.335938-21.332031h-320c-11.796875 0-21.332031 9.535156-21.332031 21.332031s9.535156 21.335938 21.332031 21.335938zm0 0"></path>
+                                    <path d="m469.332031 213.667969h-320c-11.796875 0-21.332031 9.535156-21.332031 21.332031s9.535156 21.332031 21.332031 21.332031h320c11.796875 0 21.335938-9.535156 21.335938-21.332031s-9.539063-21.332031-21.335938-21.332031zm0 0"></path>
+                                    <path d="m469.332031 384.332031h-320c-11.796875 0-21.332031 9.539063-21.332031 21.335938s9.535156 21.332031 21.332031 21.332031h320c11.796875 0 21.335938-9.535156 21.335938-21.332031s-9.539063-21.335938-21.335938-21.335938zm0 0"></path>
+                                </svg>
+                                <span className="font-bold text-lg">
+                                    Mục lục nội dung
+                                </span>
+                                <span className="text-blue-600 cursor-pointer" onClick={handleToggleTocVisibility}>
+                                    {tocVisible ? "[ẩn]" : "[hiện]"}
+                                </span>
+                            </div>
+                        </div>
+                        <div id="toc-content">
+                            {/* Nội dung của table of content */}
+                        </div>
+                    </div>
+                </div>
                 <h2
                     className="pt-4 mx-8"
-                    // id="1-Gioi-thieu-ve-dich-vu-sua-chua-laptop-cho-ULISer"
+                    id="1-Gioi-thieu-ve-dich-vu-sua-chua-laptop-cho-ULISer"
                 >
                     1. Giới thiệu về hệ thống ULAP - ULIS Laptop Repair
                 </h2>
@@ -78,7 +133,7 @@ const Home = () => {
                     phần mềm, lỗi driver, lỗi kết nối mạng và một số các lỗi
                     khác.
                 </p>
-                <h2 className="pt-4 mx-8">2. Mục đích của trang web</h2>
+                <h2 className="pt-4 mx-8" id="2-Muc-dich-cua-trang-web">2. Mục đích của trang web</h2>
                 <p className="text-[17px] leading-6 mx-[60px] my-3">
                     Laptop đã trở thành một công cụ hỗ trợ học tập không thể
                     thiếu của các bạn sinh viên với nhiều lợi ích mà nó mang lại
@@ -99,15 +154,15 @@ const Home = () => {
                     các nhu cầu từ hai phía đối tượng sinh viên của Trường Đại
                     học Quốc Gia Hà Nội.
                 </p>
-                <h2 className="pt-4 mx-8">3. Dịch vụ của ULAP cung cấp:</h2>
+                <h2 className="pt-4 mx-8" id="3-Dich-vu-cua-ULAP-cung-cap">3. Dịch vụ của ULAP cung cấp:</h2>
                 <div className="w-full flex justify-center">
                     <img
                         className="w-4/5"
-                        src={pricetable}
+                        src={service}
                         alt="bang-gia"
                     />
                 </div>
-                <h2 className="pt-4 mx-8">
+                <h2 className="pt-4 mx-8" id="4-Tai-sao-ban-lai-lua-chon-dich-vu-cua-ULAP">
                     4. Tại sao bạn lại lựa chọn dịch vụ của ULAP?
                 </h2>
                 <ul className="text-[17px] leading-6 mx-[60px] my-3">
@@ -184,7 +239,7 @@ const Home = () => {
                         </p>
                     </li>
                 </ul>
-                <h2 className="pt-4 mx-8">5. Quy trình sửa chữa:</h2>
+                <h2 className="pt-4 mx-8" id="5-Quy-trinh-sua-chua">5. Quy trình sửa chữa:</h2>
                 <div className="w-full flex justify-center">
                     <img
                         className="w-4/5"
@@ -300,7 +355,7 @@ const Home = () => {
                         cao phương thức học tập của các bạn!
                     </p>
                 </div>
-                <h2 className="pt-4 mx-8">6. Cam kết của ULAP:</h2>
+                <h2 className="pt-4 mx-8" id="6-Cam-ket-cua-ULAP">6. Cam kết của ULAP:</h2>
                 <ul className="text-[17px] leading-6 mx-[60px] my-3">
                     <li className="my-4 font-medium">
                         Thái độ phục vụ khách hàng sửa laptop nhiệt tình, tận
