@@ -7,6 +7,7 @@ import NotFound from "./pages/NotFound";
 import NavBar from "./components/NavBar";
 import Quotation from "./pages/Quotation";
 import Booking from "./pages/Booking";
+import AboutUs from "./pages/AboutUs";
 
 function App() {
     return (
@@ -17,6 +18,7 @@ function App() {
                 <Route path="/" element={<Home />} />
                 <Route path="/quotation" element={<Quotation/>} />
                 <Route path="/booking" element={<Booking/>} />
+                <Route path="/about-us" element={<AboutUs/>} />
                 <Route path="/login" element={<LoginAdmin />} />
                 <Route path="/admin" element={<Admin />} />
                 <Route path="*" element={<NotFound />} />
