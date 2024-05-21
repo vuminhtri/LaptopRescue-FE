@@ -9,6 +9,7 @@ const initialState = {
     createStatus: null,
     // deleteStatus: null,
     editStatus: null,
+    editPICStatus: null,
 };
 
 export const fetchOrders = createAsyncThunk(
@@ -48,6 +49,23 @@ export const editStatusOrders = createAsyncThunk(
             const response = await axios.put(
                 `${import.meta.env.VITE_SERVER}/orders/${value.id}/update-status`,
                 { statusOrder: value.statusOrder }
+            );
+
+            return response.data;
+        } catch (error) {
+            console.error(error);
+            return rejectWithValue(error.response?.data);
+        }
+    }
+);
+
+export const editPICOrders = createAsyncThunk(
+    "orders/editPICOrders",
+    async (value, { rejectWithValue }) => {
+        try {
+            const response = await axios.put(
+                `${import.meta.env.VITE_SERVER}/orders/${value.id}/update-pic`,
+                { picOrder: value.picOrder }
             );
 
             return response.data;
@@ -171,6 +189,21 @@ const ordersSlice = createSlice({
             })
             .addCase(editStatusOrders.rejected, (state, action) => {
                 state.editStatus = "rejected";
+                toast.dismiss();
+                toast.error(action.payload);
+            })
+            .addCase(editPICOrders.pending, (state) => {
+                state.editPICStatus = "pending";
+                toast.dismiss();
+                toast.loading("Updating order PIC in process...");
+            })
+            .addCase(editPICOrders.fulfilled, (state, action) => {
+                state.editPICStatus = "success";
+                toast.dismiss();
+                toast.success(action.payload, {duration: 4000});
+            })
+            .addCase(editPICOrders.rejected, (state, action) => {
+                state.editPICStatus = "rejected";
                 toast.dismiss();
                 toast.error(action.payload);
             })

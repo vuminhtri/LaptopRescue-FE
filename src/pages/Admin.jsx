@@ -3,15 +3,19 @@ import { DataGrid } from "@mui/x-data-grid";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import ReactModal from "react-modal";
-import { editStatusOrders, fetchOrders } from "../redux/ordersSlice";
+import { editPICOrders, editStatusOrders, fetchOrders } from "../redux/ordersSlice";
 
 export default function ManageUsers() {
     const { orderList } = useSelector((state) => state.orders);
-    const [isEditing, setIsEditing] = useState(false);
+    const [isSOEditing, setIsSOEditing] = useState(false);
     const [selectedOrderId, setSelectedOrderId] = useState("");
     const [selectedStatus, setSelectedStatus] = useState("");
+    const [isPICEditing, setIsPICEditing] = useState(false);
+    // const [selectedOrderId, setSelectedOrderId] = useState("");
+    const [selectedPIC, setSelectedPIC] = useState("");
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedOrder, setSelectedOrder] = useState("");
+    // const picArr = ["Phạm Tùng Thủy", "Bùi Tuấn Nghĩa", "Đặng Minh Khôi"]
 
     const dispatch = useDispatch();
 
@@ -20,13 +24,13 @@ export default function ManageUsers() {
     }, [dispatch]);
 
     const handleEditStatus = (id, role) => {
-        setIsEditing(true);
+        setIsSOEditing(true);
         setSelectedOrderId(id);
         setSelectedStatus(role);
     };
 
     const handleSaveStatus = async () => {
-        setIsEditing(false);
+        setIsSOEditing(false);
         await dispatch(
             editStatusOrders({
                 id: selectedOrderId,
@@ -36,12 +40,39 @@ export default function ManageUsers() {
         dispatch(fetchOrders());
     };
 
-    const handleCancelEdit = () => {
-        setIsEditing(false);
+    const handleCancelEditSO = () => {
+        setIsSOEditing(false);
     };
 
     const handleStatusChange = (e) => {
         setSelectedStatus(e.target.value);
+    };
+
+    const handleEditPIC = (id, pic) => {
+        setIsPICEditing(true);
+        setSelectedOrderId(id);
+        setSelectedPIC(pic);
+    };
+
+    const handleSavePIC = async () => {
+        setIsPICEditing(false);
+        console.log(selectedPIC);
+        await dispatch(
+            editPICOrders({
+                id: selectedOrderId,
+                picOrder: selectedPIC,
+            })
+        );
+        dispatch(fetchOrders());
+    };
+
+    const handleCancelEditPIC = () => {
+        setIsPICEditing(false);
+    };
+
+    const handlePICChange = (e) => {
+        console.log(e.target.value);
+        setSelectedPIC(e.target.value);
     };
 
     const openModal = (id) => {
@@ -64,12 +95,11 @@ export default function ManageUsers() {
                 phoneCustomer: order.phoneCustomer,
                 descriptionError: order.descriptionError,
                 statusOrder: order.statusOrder,
-                pic: ""
+                pic: order.pic,
             };
         });
 
     const columns = [
-        { field: "id", headerName: "ID", width: 100 },
         {
             field: "nameCustomer",
             headerName: "Customer's Name",
@@ -90,51 +120,13 @@ export default function ManageUsers() {
             headerName: "Description Error",
             width: 250,
         },
-        {
-            field: "pic",
-            headerName: "Person In Charge",
-            width: 140,
-            renderCell: () => {
-                return (
-                    <select
-                        className="text-center bg-transparent border-none outline-none p-1 rounded cursor-pointer"
-                        value={selectedStatus}
-                        onChange={handleStatusChange}
-                    >
-                        <option
-                            className="text-green-700"
-                            value="No One"
-                        >
-                            No One
-                        </option>
-                        <option
-                            className="text-green-700"
-                            value="Phạm Tùng Thủy"
-                        >
-                            Phạm Tùng Thủy
-                        </option>
-                        <option
-                            className="text-amber-700"
-                            value="Bùi Tuấn Nghĩa"
-                        >
-                            Bùi Tuấn Nghĩa
-                        </option>
-                        <option
-                            className="text-red-700"
-                            value="Đặng Minh Khôi"
-                        >
-                            Đặng Minh Khôi
-                        </option>
-                    </select>
-                )
-            },
-        },
+
         {
             field: "statusOrder",
             headerName: "Status Order",
             width: 100,
             renderCell: (params) => {
-                return isEditing && selectedOrderId === params.row.id ? (
+                return isSOEditing && selectedOrderId === params.row.id ? (
                     <select
                         className="text-center bg-transparent border-none outline-none p-1 rounded cursor-pointer"
                         value={selectedStatus}
@@ -199,6 +191,54 @@ export default function ManageUsers() {
             },
         },
         {
+            field: "pic",
+            headerName: "Person In Charge",
+            width: 140,
+            renderCell: (params) => {
+                return isPICEditing && selectedOrderId === params.row.id ? (
+                    <select
+                        className="text-center bg-transparent border-none outline-none p-1 rounded cursor-pointer"
+                        value={selectedPIC}
+                        onChange={handlePICChange}
+                    >
+                        <option
+                            className="text-green-700"
+                            value="Phạm Tùng Thủy"
+                        >
+                            Phạm Tùng Thủy
+                        </option>
+                        <option
+                            className="text-amber-700"
+                            value="Bùi Tuấn Nghĩa"
+                        >
+                            Bùi Tuấn Nghĩa
+                        </option>
+                        <option
+                            className="text-red-700"
+                            value="Đặng Minh Khôi"
+                        >
+                            Đặng Minh Khôi
+                        </option>
+                    </select>
+                ) : (
+                    <div className="text-center">
+                        {(() => {
+                            switch (params.row.pic) {
+                                case "Đặng Minh Khôi":
+                                    return <span className="text-green-600">Đặng Minh Khôi</span>;
+                                case "Bùi Tuấn Nghĩa":
+                                    return <span className="text-blue-700">Bùi Tuấn Nghĩa</span>;
+                                case "Phạm Tùng Thủy":
+                                    return <span className="text-amber-700">Phạm Tùng Thủy</span>;
+                                default:
+                                    return <span>No One</span>;
+                            }
+                        })()}
+                    </div>
+                );
+            },
+        },
+        {
             field: "actions",
             headerName: "Actions",
             sortable: false,
@@ -206,7 +246,7 @@ export default function ManageUsers() {
             renderCell: (params) => {
                 return (
                     <div className="flex w-full h-full justify-around items-center">
-                        {isEditing && selectedOrderId === params.row.id ? (
+                        {isSOEditing && selectedOrderId === params.row.id ? (
                             <>
                                 <button
                                     className="bg-[#4caf50] border-none outline-none py-2 px-1 text-white rounded cursor-pointer leading-normal"
@@ -216,35 +256,47 @@ export default function ManageUsers() {
                                 </button>
                                 <button
                                     className="bg-[#ff4d49] border-none outline-none py-2 px-1 text-white rounded cursor-pointer leading-normal"
-                                    onClick={handleCancelEdit}
+                                    onClick={handleCancelEditSO}
                                 >
                                     Cancel Edit Status
+                                </button>
+                            </>
+                        ) : isPICEditing && selectedOrderId === params.row.id ? (
+                            <>
+                                <button
+                                    className="bg-[#4caf50] border-none outline-none py-2 px-1 text-white rounded cursor-pointer leading-normal"
+                                    onClick={handleSavePIC}
+                                >
+                                    Save Edit PIC
+                                </button>
+                                <button
+                                    className="bg-[#ff4d49] border-none outline-none py-2 px-1 text-white rounded cursor-pointer leading-normal"
+                                    onClick={handleCancelEditPIC}
+                                >
+                                    Cancel Edit PIC
                                 </button>
                             </>
                         ) : (
                             <>
                                 <button
-                                    className="bg-[#0866ff] border-none outline-none py-2 px-1 text-white rounded cursor-pointer leading-normal"
+                                    className="bg-yellow-400 border-none outline-none py-2 px-1 text-white rounded cursor-pointer leading-normal"
+                                    onClick={() => handleEditPIC(params.row.id, params.row.pic)}
+                                >
+                                    Assign Work To
+                                </button>
+                                <button
+                                    className="bg-red-500 border-none outline-none py-2 px-1 text-white rounded cursor-pointer leading-normal"
                                     onClick={() =>
-                                        handleEditStatus(
-                                            params.row.id,
-                                            params.row.statusOrder
-                                        )
+                                        handleEditStatus(params.row.id, params.row.statusOrder)
                                     }
                                 >
                                     Edit Order Status
                                 </button>
                                 <button
-                                    className="bg-green-700 border-none outline-none py-2 px-1 text-white rounded cursor-pointer leading-normal"
+                                    className="bg-blue-500 border-none outline-none py-2 px-1 text-white rounded cursor-pointer leading-normal"
                                     onClick={() => openModal(params.row.id)}
                                 >
                                     View Order Detail
-                                </button>
-                                <button
-                                    className="bg-green-700 border-none outline-none py-2 px-1 text-white rounded cursor-pointer leading-normal"
-                                    onClick={() => openModal(params.row.id)}
-                                >
-                                    Assign Work To
                                 </button>
                             </>
                         )}
@@ -291,9 +343,7 @@ export default function ManageUsers() {
                     }}
                 >
                     <div className="w-full flex flex-col justify-center items-center">
-                        <h2 className="text-3xl font-bold mb-8">
-                            Detail Information Order
-                        </h2>
+                        <h2 className="text-3xl font-bold mb-8">Detail Information Order</h2>
                         <div className="mt-6 w-3/5 justify-start">
                             {selectedOrder && (
                                 <div className="w-full pl-10 py-2">
@@ -301,25 +351,19 @@ export default function ManageUsers() {
                                         <span className="font-medium italic w-2/5">
                                             Customer's Name:
                                         </span>
-                                        <span className="w-3/5">
-                                            {selectedOrder.nameCustomer}
-                                        </span>
+                                        <span className="w-3/5">{selectedOrder.nameCustomer}</span>
                                     </div>
                                     <div className="flex">
                                         <span className="font-medium italic w-2/5">
                                             Customer's Email:
                                         </span>
-                                        <span className="w-3/5">
-                                            {selectedOrder.emailCustomer}
-                                        </span>
+                                        <span className="w-3/5">{selectedOrder.emailCustomer}</span>
                                     </div>
                                     <div className="flex">
                                         <span className="font-medium italic w-2/5">
                                             Customer's Phone:
                                         </span>
-                                        <span className="w-3/5">
-                                            {selectedOrder.phoneCustomer}
-                                        </span>
+                                        <span className="w-3/5">{selectedOrder.phoneCustomer}</span>
                                     </div>
                                     <div className="flex">
                                         <span className="font-medium italic w-2/5">
@@ -333,9 +377,7 @@ export default function ManageUsers() {
                                         <span className="font-medium italic w-2/5">
                                             Status Order:
                                         </span>
-                                        <span className="w-3/5">
-                                            {selectedOrder.statusOrder}
-                                        </span>
+                                        <span className="w-3/5">{selectedOrder.statusOrder}</span>
                                     </div>
                                 </div>
                             )}
