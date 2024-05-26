@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import service from "../assets/dich vu.png";
+import quotation from "../assets/bang gia.jpg";
 import repairprocess from "../assets/quy trinh sua chua.jpg";
 import { useDispatch } from "react-redux";
 import { createOrders } from "../redux/ordersSlice";
@@ -178,7 +178,7 @@ const Home = () => {
                 <div className="w-full flex justify-center">
                     <img
                         className="w-4/5"
-                        src={service}
+                        src={quotation}
                         alt="bang-gia"
                     />
                 </div>
